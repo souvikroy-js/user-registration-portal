@@ -1,5 +1,5 @@
+import ThemeToggleButton from "@/components/Buttons/ThemeToggleButton";
 import Link from "next/link";
-import ThemeToggleButton from "../Buttons/ThemeToggleButton";
 
 const Header = () => {
   return (

@@ -1,14 +1,9 @@
-import Header from "@/components/Header/Header";
 import ThemeProvider from "@/components/Providers/ThemeProvider";
 import { geistMono, geistSans } from "@/lib/fonts";
-import { ReactNode } from "react";
+import { PageLayoutProps } from "@/lib/type";
 import "./globals.css";
 
-type RootLayoutProps = Readonly<{
-  children: ReactNode;
-}>;
-
-const RootLayout = ({ children }: RootLayoutProps) => {
+const RootLayout = ({ children }: PageLayoutProps) => {
   return (
     <html
       lang="en"
@@ -19,8 +14,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           attribute={"class"}
           defaultTheme="dark"
           enableSystem={false}>
-          <Header />
-
           <main className="mx-auto max-w-7xl">{children}</main>
         </ThemeProvider>
       </body>
