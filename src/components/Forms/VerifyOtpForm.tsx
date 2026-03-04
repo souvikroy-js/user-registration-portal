@@ -1,5 +1,6 @@
 "use client";
 
+import checkAndSigninOtp from "@/hooks/checkAndSigninOtp";
 import { verifyOtpSchema } from "@/lib/schema";
 import { VerifyOtpType } from "@/lib/type";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +20,11 @@ import {
   InputOTPSlot,
 } from "../shadcnui/input-otp";
 
-const VerifyOtpForm = () => {
+type VerifyOtpFormProps = {
+  email: string | undefined;
+};
+
+const VerifyOtpForm = ({ email }: VerifyOtpFormProps) => {
   const {
     handleSubmit,
     control,
@@ -29,8 +34,12 @@ const VerifyOtpForm = () => {
     defaultValues: { otp: "" },
   });
 
-  const verifyOtpHandler = async (vOTP: VerifyOtpType) => {
-    console.log(vOTP);
+  const verifyOtpHandler = async ({ otp }: VerifyOtpType) => {
+    if (!email) {
+      return;
+    }
+
+    checkAndSigninOtp(otp, email);
   };
   return (
     <>

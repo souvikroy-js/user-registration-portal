@@ -7,7 +7,13 @@ import {
 } from "@/components/shadcnui/card";
 import { ShieldCheckIcon } from "lucide-react";
 
-const page = () => {
+const page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string }>;
+}) => {
+  const { email } = await searchParams;
+
   return (
     <section className="grid h-dvh place-items-center">
       <Card className="w-full max-w-sm drop-shadow-lg dark:drop-shadow-lg dark:drop-shadow-gray-700">
@@ -23,15 +29,15 @@ const page = () => {
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
               Enter the 6-digit code we sent to{" "}
-              <span className="font-semibold text-zinc-700 dark:text-zinc-300">
-                {/* {email} */}example@gmail.com
+              <span className="font-medium tracking-wide text-zinc-900 dark:text-zinc-100">
+                {email}
               </span>
               .
             </p>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <VerifyOtpForm />
+          <VerifyOtpForm email={email} />
         </CardContent>
       </Card>
     </section>

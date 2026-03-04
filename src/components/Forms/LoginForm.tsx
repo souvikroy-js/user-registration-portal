@@ -9,6 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
+import sendOtp from "@/hooks/sendOtp";
 
 const LoginForm = () => {
   const { push } = useRouter();
@@ -25,9 +26,12 @@ const LoginForm = () => {
     mode: "all",
   });
 
-  const loginHandler = async (lData: LoginType) => {
-    console.log(lData);
-    push("/auth/verify-otp");
+  const loginHandler = async ({ email }: LoginType) => {
+    await sendOtp(email);
+
+    // push("/auth/verify-otp");
+
+    push(`/auth/verify-otp?email=${email}`);
     reset();
   };
   return (
