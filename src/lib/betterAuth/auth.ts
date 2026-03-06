@@ -6,6 +6,10 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 
 export const auth = betterAuth({
   // ... other config options
+  // advanced: {
+  //   cookiePrefix: "urp",
+  // },
+
   database: prismaAdapter(prisma, {
     provider: "sqlite", // or "mysql", "postgresql", ...etc
   }),

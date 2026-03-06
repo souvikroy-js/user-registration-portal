@@ -50,14 +50,18 @@ const LoginForm = () => {
                 EMAIL ADDRESS
                 <span className="font-bold text-red-500">*</span>
               </FieldLabel>
-              <Input
-                {...field}
-                id={field.name}
-                aria-invalid={fieldState.invalid}
-                type="email"
-                placeholder="you@example.com"
-                autoComplete="email"
-              />
+              <div className="relative">
+                <MailIcon className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Input
+                  {...field}
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                  type="email"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  className="pl-8"
+                />
+              </div>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
