@@ -1,21 +1,48 @@
 "use server";
 
 import { auth } from "@/lib/betterAuth/auth";
+import prisma from "@/lib/database/dbClient";
 
 const checkAndSigninOtp = async (otp: string, email: string) => {
-  // Step 1: validate OTP first
-  const isValid = await auth.api.checkVerificationOTP({
-    body: { email, otp, type: "sign-in" },
-  });
+  try {
+    const record = await prisma.verification.findFirst({
+      where: {
+        identifier: email, // BetterAuth stores OTP keyed by email
+        value: otp,
+        expiresAt: { gt: new Date() }, // not expired
+      },
+    });
 
-  if (!isValid) throw new Error("Invalid or expired OTP");
+    if (!record) {
+      return {
+        isSuccess: false,
+        message: "Invalid or expired OTP 😢",
+      };
+    }
 
-  // Step 2: sign in and create session
-  const data = await auth.api.signInEmailOTP({
-    body: { email, otp },
-  });
+    // ✅ Step 2: OTP is valid — sign in (creates user if new, creates session)
+    const data = await auth.api.signInEmailOTP({
+      body: { email, otp, name: email.split("@")[0] },
+    });
 
-  return data;
+    if (!data) {
+      return {
+        isSuccess: false,
+        message: "Sign in failed 😢",
+      };
+    }
+
+    return {
+      isSuccess: true,
+      message: "User Login Successfully 👍",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      isSuccess: false,
+      message: "User Login failed 😢",
+    };
+  }
 };
 
 export default checkAndSigninOtp;

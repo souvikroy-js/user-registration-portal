@@ -1,17 +1,24 @@
 import { betterAuth } from "better-auth";
 import { emailOTP } from "better-auth/plugins";
 import { transporter } from "../nodemailer";
+import prisma from "../database/dbClient";
+import { prismaAdapter } from "better-auth/adapters/prisma";
 
 export const auth = betterAuth({
   // ... other config options
+  database: prismaAdapter(prisma, {
+    provider: "sqlite", // or "mysql", "postgresql", ...etc
+  }),
+
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
-        await transporter.sendMail({
-          to: email,
-          subject: "Your OTP Code",
-          //   text: `Your OTP is: ${otp}`,
-          html: `
+        if (type === "sign-in") {
+          // Send the OTP for sign in
+          await transporter.sendMail({
+            to: email,
+            subject: "Your OTP Code",
+            html: `
             <div style="font-family: sans-serif; max-width: 400px; margin: 0 auto;">
               <h2 style="color: #18181b;">Your verification code</h2>
               <p style="color: #71717a;">Use the code below to complete your sign in.</p>
@@ -33,14 +40,12 @@ export const auth = betterAuth({
               </p>
             </div>
           `,
-        });
-        // if (type === "sign-in") {
-        //   // Send the OTP for sign in
-        // } else if (type === "email-verification") {
-        //   // Send the OTP for email verification
-        // } else {
-        //   // Send the OTP for password reset
-        // }
+          });
+        } else if (type === "email-verification") {
+          // Send the OTP for email verification
+        } else {
+          // Send the OTP for password reset
+        }
       },
     }),
   ],

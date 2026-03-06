@@ -19,12 +19,16 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "../shadcnui/input-otp";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 type VerifyOtpFormProps = {
   email: string | undefined;
 };
 
 const VerifyOtpForm = ({ email }: VerifyOtpFormProps) => {
+  const { replace } = useRouter();
+
   const {
     handleSubmit,
     control,
@@ -39,7 +43,14 @@ const VerifyOtpForm = ({ email }: VerifyOtpFormProps) => {
       return;
     }
 
-    checkAndSigninOtp(otp, email);
+    const { isSuccess, message } = await checkAndSigninOtp(otp, email);
+
+    if (isSuccess) {
+      toast.success(message);
+      replace("/registration");
+    } else {
+      toast.error(message);
+    }
   };
   return (
     <>
