@@ -147,7 +147,7 @@ const VerifyOtpForm = ({ email }: VerifyOtpFormProps) => {
           disabled={isSubmitting || isExpired}>
           {isSubmitting ?
             <>
-              <Loader2Icon className="animate-spin" /> Submitting..
+              <Loader2Icon className="animate-spin" /> Verifying...
             </>
           : <>
               <LockIcon /> Verify & Sign in

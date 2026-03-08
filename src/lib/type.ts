@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { loginSchema, verifyOtpSchema } from "./schema";
+import { loginSchema, personalDetailsSchema, verifyOtpSchema } from "./schema";
 import z from "zod";
 
 // Page Layout Props type
@@ -12,3 +12,6 @@ export type LoginType = z.infer<typeof loginSchema>;
 
 // Verify Otp type
 export type VerifyOtpType = z.infer<typeof verifyOtpSchema>;
+
+// personal details type
+export type PersonalDetailsSchemaType = z.infer<typeof personalDetailsSchema>;

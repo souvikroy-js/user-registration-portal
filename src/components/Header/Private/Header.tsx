@@ -1,3 +1,4 @@
+import LogoutButton from "@/components/Buttons/LogoutButton";
 import ThemeToggleButton from "@/components/Buttons/ThemeToggleButton";
 import Link from "next/link";
 
@@ -11,12 +12,14 @@ const Header = () => {
           <h1
             className="text-2xl font-semibold"
             aria-label="App Name">
-            User Registration Portal Private
+            User Registration Portal
           </h1>
         </Link>
 
         <nav className="flex items-center gap-4">
           <Link href={"/"}>Home private</Link>
+
+          <LogoutButton />
 
           <ThemeToggleButton />
         </nav>

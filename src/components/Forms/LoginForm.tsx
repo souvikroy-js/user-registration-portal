@@ -29,8 +29,6 @@ const LoginForm = () => {
   const loginHandler = async ({ email }: LoginType) => {
     await sendOtp(email);
 
-    // push("/auth/verify-otp");
-
     push(`/auth/verify-otp?email=${email}`);
     reset();
   };
@@ -81,7 +79,7 @@ const LoginForm = () => {
           disabled={isSubmitting}>
           {isSubmitting ?
             <>
-              <Loader2Icon className="animate-spin" /> Submitting..
+              <Loader2Icon className="animate-spin" /> Sending...
             </>
           : <>
               <MailIcon /> Send OTP
