@@ -44,10 +44,10 @@ const personalDetails = async (data: PersonalDetailsSchemaType) => {
       },
     });
 
-    // Step 3 — update registration step to 2
+    // Step 3 — update registration step to 1
     await prisma.user.update({
       where: { email },
-      data: { registrationStep: 2 },
+      data: { registrationStep: 1 },
     });
 
     return {
