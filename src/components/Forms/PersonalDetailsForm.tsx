@@ -13,6 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../shadcnui/select";
+import personalDetails from "@/server/personalDetails";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const WEST_BENGAL_DATA: Record<string, string[]> = {
   Bankura: ["Bankura", "Bishnupur", "Sonamukhi", "Khatra", "Raipur"],
@@ -73,6 +76,7 @@ const WEST_BENGAL_DATA: Record<string, string[]> = {
 const DISTRICTS = Object.keys(WEST_BENGAL_DATA).sort();
 
 const PersonalDetailsForm = () => {
+  const { push } = useRouter();
   const { handleSubmit, control, watch, setValue } =
     useForm<PersonalDetailsSchemaType>({
       resolver: zodResolver(personalDetailsSchema),
@@ -92,7 +96,16 @@ const PersonalDetailsForm = () => {
   const cities = WEST_BENGAL_DATA[selectedDistrict] ?? [];
 
   const PersonalDetailsHandler = async (data: PersonalDetailsSchemaType) => {
-    console.log(data);
+    const { isSuccess, message } = await personalDetails(data);
+
+    if (!isSuccess) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      toast.success(message);
+      push("/registration/documents-upload");
+    }
   };
 
   return (

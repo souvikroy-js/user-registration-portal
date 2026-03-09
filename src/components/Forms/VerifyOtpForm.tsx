@@ -7,7 +7,7 @@ import { verifyOtpSchema } from "@/lib/schema";
 import { VerifyOtpType } from "@/lib/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, LockIcon, RefreshCwIcon, TimerIcon } from "lucide-react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Button } from "../shadcnui/button";
@@ -24,6 +24,8 @@ type VerifyOtpFormProps = {
 };
 
 const VerifyOtpForm = ({ email }: VerifyOtpFormProps) => {
+  const { push } = useRouter();
+
   const { minutes, seconds, isExpired, restart } = useOtpCountdown(5);
 
   const {
@@ -46,7 +48,7 @@ const VerifyOtpForm = ({ email }: VerifyOtpFormProps) => {
 
     if (isSuccess) {
       toast.success(message);
-      redirect("/registration");
+      push("/registration");
     }
   };
 

@@ -24,10 +24,10 @@ const layout = async ({ children }: PageLayoutProps) => {
   if (!user) redirect("/auth/login");
 
   // if already completed, send to dashboard
-  if (user.registrationCompleted) redirect("/registration");
+  if (user.registrationCompleted) redirect("/dashboard");
 
   // registrationStep 0 = not started → tracker shows step 1
-  const currentStep = user.registrationStep + 1;
+  const currentStep = user.registrationStep;
 
   return (
     <main className="mx-auto max-w-7xl py-14">

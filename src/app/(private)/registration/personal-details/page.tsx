@@ -8,7 +8,7 @@ import {
 
 const page = () => {
   return (
-    <section>
+    <section className="py-4">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Personal Details</CardTitle>
