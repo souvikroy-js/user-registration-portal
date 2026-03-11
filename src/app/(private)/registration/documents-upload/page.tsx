@@ -2,14 +2,13 @@ import DocumentsUploadForm from "@/components/Forms/DocumentsUploadForm";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/shadcnui/card";
 
 const page = () => {
   return (
-    <section>
+    <section className="py-4">
       <Card>
         <CardHeader>
           <CardTitle>Documents Upload</CardTitle>
@@ -18,8 +17,6 @@ const page = () => {
         <CardContent>
           <DocumentsUploadForm />
         </CardContent>
-
-        <CardFooter></CardFooter>
       </Card>
     </section>
   );

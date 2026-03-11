@@ -12,17 +12,20 @@ datasource db {
 }
 
 model User {
-  id                    String    @id @default(uuid())
+  id                    String   @id @default(uuid())
   name                  String
   email                 String
-  registrationStep      Int       @default(0)
-  registrationCompleted Boolean   @default(false)
-  emailVerified         Boolean   @default(false)
+  registrationStep      Int      @default(0)
+  registrationCompleted Boolean  @default(false)
+  emailVerified         Boolean  @default(false)
   image                 String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-  sessions              Session[]
-  accounts              Account[]
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  sessions       Session[]
+  accounts       Account[]
+  files          File[]
+  personalDetail PersonalDetail?
 
   @@unique([email])
   @@map("user")
@@ -76,7 +79,7 @@ model Verification {
   @@map("verification")
 }
 
-model PersonalDetails {
+model PersonalDetail {
   id          String   @id @default(uuid())
   fullName    String
   email       String   @unique
@@ -86,6 +89,19 @@ model PersonalDetails {
   city        String
   pincode     String
   place       String?
+  files       File[]
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model File {
+  id               String          @id @default(uuid())
+  photoUrl         String
+  user             User?           @relation(fields: [userId], references: [id])
+  userId           String?
+  personalDetail   PersonalDetail? @relation(fields: [personalDetailId], references: [id])
+  personalDetailId String?
+  createdAt        DateTime        @default(now())
 }

@@ -16,6 +16,10 @@ import {
 import personalDetails from "@/server/personalDetails";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { Button } from "../shadcnui/button";
+import Link from "next/link";
+import { useEffect } from "react";
+import { getPersonalDetails } from "@/server/getPersonalDetails";
 
 const WEST_BENGAL_DATA: Record<string, string[]> = {
   Bankura: ["Bankura", "Bishnupur", "Sonamukhi", "Khatra", "Raipur"],
@@ -77,7 +81,7 @@ const DISTRICTS = Object.keys(WEST_BENGAL_DATA).sort();
 
 const PersonalDetailsForm = () => {
   const { push } = useRouter();
-  const { handleSubmit, control, watch, setValue } =
+  const { handleSubmit, control, watch, setValue, reset } =
     useForm<PersonalDetailsSchemaType>({
       resolver: zodResolver(personalDetailsSchema),
       defaultValues: {
@@ -91,6 +95,27 @@ const PersonalDetailsForm = () => {
         place: "",
       },
     });
+
+  // ✅ Load existing data on mount
+  useEffect(() => {
+    const loadDraft = async () => {
+      const data = await getPersonalDetails();
+      if (data) {
+        reset({
+          fullName: data.fullName,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          state: data.state,
+          district: data.district,
+          city: data.city,
+          pincode: data.pincode,
+          place: data.place ?? "",
+        });
+      }
+    };
+
+    loadDraft();
+  }, [reset]);
 
   const selectedDistrict = watch("district");
   const cities = WEST_BENGAL_DATA[selectedDistrict] ?? [];
@@ -304,11 +329,13 @@ const PersonalDetailsForm = () => {
         )}
       />
 
-      <button
-        type="submit"
-        className="w-full rounded-xl bg-violet-600 py-3 text-sm font-bold text-white transition-colors hover:bg-violet-700">
-        Save & Continue →
-      </button>
+      <div className="flex justify-center">
+        <Button
+          type="submit"
+          className="h-11 w-40 rounded-xl bg-violet-600 py-3 text-sm font-bold text-white transition-colors hover:bg-violet-700">
+          Save & Continue →
+        </Button>
+      </div>
     </form>
   );
 };
