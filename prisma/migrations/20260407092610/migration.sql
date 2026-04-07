@@ -1,6 +1,7 @@
 -- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL PRIMARY KEY,
+    "refNumber" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "registrationStep" INTEGER NOT NULL DEFAULT 0,
@@ -53,7 +54,7 @@ CREATE TABLE "verification" (
 );
 
 -- CreateTable
-CREATE TABLE "PersonalDetails" (
+CREATE TABLE "PersonalDetail" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "fullName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -63,8 +64,21 @@ CREATE TABLE "PersonalDetails" (
     "city" TEXT NOT NULL,
     "pincode" TEXT NOT NULL,
     "place" TEXT,
+    "userId" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "PersonalDetail_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "File" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "photoUrl" TEXT NOT NULL,
+    "userId" TEXT,
+    "personalDetailId" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "File_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "File_personalDetailId_fkey" FOREIGN KEY ("personalDetailId") REFERENCES "PersonalDetail" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -83,4 +97,7 @@ CREATE INDEX "account_userId_idx" ON "account"("userId");
 CREATE INDEX "verification_identifier_idx" ON "verification"("identifier");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "PersonalDetails_email_key" ON "PersonalDetails"("email");
+CREATE UNIQUE INDEX "PersonalDetail_email_key" ON "PersonalDetail"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "PersonalDetail_userId_key" ON "PersonalDetail"("userId");

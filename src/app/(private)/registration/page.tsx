@@ -39,9 +39,9 @@ const page = async () => {
   if (user?.registrationStep === 2) {
     redirect("/registration/documents-upload");
   }
-  if (user?.registrationStep === 3) {
-    redirect("/registration/final-submit");
-  }
+  // if (user?.registrationStep === 3) {
+  //   redirect("/registration/final-submit");
+  // }
 
   return <div className="grid h-[87dvh] place-items-center">registration</div>;
 };

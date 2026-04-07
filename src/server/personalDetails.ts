@@ -9,6 +9,7 @@ import { headers } from "next/headers";
 const personalDetails = async ({
   fullName,
   phoneNumber,
+  email,
   state,
   city,
   district,
@@ -18,6 +19,7 @@ const personalDetails = async ({
   const personalData = {
     fullName,
     phoneNumber,
+    email,
     state,
     city,
     district,
@@ -43,7 +45,7 @@ const personalDetails = async ({
     await prisma.personalDetail.upsert({
       where: { userId: user.id },
       update: personalData,
-      create: { ...personalData, email: user.email, userId: user.id },
+      create: { ...personalData, userId: user.id },
     });
 
     // Step 3 — update registration step to 1

@@ -36,7 +36,7 @@ const ProgressTracker = ({ currentStep }: Props) => {
             return (
               <div
                 key={step.id}
-                className="flex flex-col items-center gap-2">
+                className="flex flex-col items-center gap-2 print:hidden">
                 <div
                   className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-bold ${isDone ? "border-green-500 bg-green-500 text-white" : ""} ${isActive ? "border-green-500 bg-white text-green-500" : ""} ${!isDone && !isActive ? "border-gray-300 bg-white text-gray-400" : ""} `}>
                   {isDone ?
