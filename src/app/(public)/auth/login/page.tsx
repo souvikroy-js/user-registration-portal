@@ -29,6 +29,7 @@ const page = () => {
             </p>
           </div>
         </CardHeader>
+
         <CardContent>
           <LoginForm />
         </CardContent>
